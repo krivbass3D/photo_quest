@@ -1,0 +1,15 @@
+{
+  "home": {
+    "title": "PhotoQuest Oelsnitz",
+    "subtitle": "Entdecke deine Stadt durch KI-generierte Foto-Abenteuer",
+    "startButton": "Neues Abenteuer starten"
+  },
+  "setup": {
+    "title": "Dein Abenteuer anpassen",
+    "duration": "Dauer",
+    "transport": "Fortbewegung",
+    "difficulty": "Schwierigkeit",
+    "genre": "Genre",
+    "createButton": "Quest erstellen"
+  }
+}
