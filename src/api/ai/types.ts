@@ -17,6 +17,7 @@ export interface QuestTask {
 
 export interface GeneratedQuest {
   id: string
+  city: string
   theme: string
   tasks: QuestTask[]
 }

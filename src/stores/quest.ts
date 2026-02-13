@@ -45,7 +45,7 @@ export const useQuestStore = defineStore('quest', {
 
         if (error) throw error
         
-        this.currentQuest = data as GeneratedQuest
+        this.currentQuest = { ...data, city: params.city } as GeneratedQuest
         this.currentTaskIndex = 0
         this.score = 0
       } catch (err: any) {
