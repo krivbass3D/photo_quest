@@ -1,6 +1,6 @@
 {
   "home": {
-    "title": "PhotoQuest Oelsnitz",
+    "title": "PhotoQuest Deutschland",
     "subtitle": "Entdecke deine Stadt durch KI-generierte Foto-Abenteuer",
     "startButton": "Neues Abenteuer starten"
   },
@@ -9,7 +9,36 @@
     "duration": "Dauer",
     "transport": "Fortbewegung",
     "difficulty": "Schwierigkeit",
+    "difficulty_easy": "Leicht",
+    "difficulty_medium": "Mittel",
+    "difficulty_hard": "Schwer",
     "genre": "Genre",
-    "createButton": "Quest erstellen"
+    "genre_history": "Geschichte",
+    "genre_mystery": "Geheimnis",
+    "genre_kids": "Kinder",
+    "createButton": "Quest erstellen",
+    "create_loader": "Quest wird erstellt..."
+  },
+  "quest": {
+    "title": "Aktuelle Mission",
+    "subtitle": "Erkunde Deutschland und halte diese Momente fest.",
+    "progress": "Fortschritt",
+    "completed": "Erledigt",
+    "pending": "Ausstehend",
+    "uploading": "Wird entwickelt...",
+    "tap_to_photo": "Foto hinzufügen",
+    "feedback_label": "KI-Analyse",
+    "finish_title": "Quest abgeschlossen!",
+    "finish_desc": "Du hast alle Stationen gefunden. Großartige Arbeit!",
+    "claim_rewards": "Belohnung abholen"
+  },
+  "rewards": {
+    "title": "Deine Belohnung",
+    "certificate_title": "Reisezertifikat",
+    "certificate_body": "Hiermit wird bestätigt, dass der Reisende erfolgreich die PhotoQuest durch Deutschland abgeschlossen hat.",
+    "date": "Datum",
+    "location": "Ort",
+    "signature": "Unterschrift",
+    "back_home": "Zurück zum Start"
   }
 }

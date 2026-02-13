@@ -2,6 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-family: 'Outfit', sans-serif;
+    @apply min-h-screen;
+    background-image: url("../images/germany-vintage.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+}
+
+.vintage-border {
+  border: 8px double var(--color-text);
+  @apply p-4 m-2;
+}
+
+.vintage-header {
+  font-family: 'Playfair Display', serif;
+  @apply uppercase tracking-widest font-black;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

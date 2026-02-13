@@ -8,12 +8,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#3B82F6',
-        success: '#10B981',
-        warning: '#F59E0B',
-        error: '#EF4444',
-        background: '#FFFFFF',
-        text: '#1F2937',
+        primary: '#C84C3C',    // Vintage Car Red
+        secondary: '#4A6FA5',  // Muted Sky Blue
+        accent: '#F4A261',     // Poster Title Yellow/Orange
+        background: '#FDFCF6', // Off-white Paper
+        surface: '#EAE2CF',    // Warm Building Beige
+        text: '#1A2C42',       // Deep Navy/Black
+        success: '#2A9D8F',
+        warning: '#E9C46A',
+        error: '#D62828',
       },
     },
   },

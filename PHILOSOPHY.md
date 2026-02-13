@@ -6,8 +6,9 @@
 
 This is not just a game.
 This is:
+
 - City exploration
-- Active engagement  
+- Active engagement
 - Personalization
 - Memory creation
 
@@ -28,9 +29,19 @@ Your AI doesn't create the world — it interprets it as a game.
 
 **Photo = Proof of participation**
 
-### 3️⃣ AI = Director, Not Knowledge Base
+### 3. Vintage Travel Poster Aesthetic
+
+Every screen should feel like a collectible postcard or a 1930s-1950s travel poster. This includes:
+
+- **Color Palette**: Muted, sun-baked tones (cream, ochre, sage green, deep navy).
+- **Typography**: Bold, stylized serif headers coupled with clean, readable sans-serif body text.
+- **Imagery**: Stylized, slightly grain-textured illustrations or photos with "edge-fading" effects.
+- **Layout**: Clear borders, strong central subjects, and "stamp-like" UI elements.
+
+### 4️⃣ AI = Director, Not Knowledge Base
 
 AI:
+
 - Selects locations
 - Creates atmosphere
 - Verifies completion
@@ -38,7 +49,7 @@ AI:
 But the world is real.
 This is important for architectural purity.
 
-### 4️⃣ Memory > Reward
+### 5️⃣ Memory > Reward
 
 You're right:
 **Reward doesn't have to be physical.**
@@ -47,6 +58,7 @@ Philosophy:
 **Quest is a way to create a personal travel story.**
 
 **MVP Rewards:**
+
 - Achievement screen
 - Photo gallery
 - Message: "You are an explorer of [City]"
@@ -64,6 +76,7 @@ Use this formulation:
 **AI-powered web application that dynamically generates personalized city photo quests using open geographic data (OpenStreetMap) and validates user submissions via computer vision (Gemini).**
 
 The system:
+
 - Retrieves real-world POIs
 - Builds logical walking routes
 - Generates contextual photo challenges
@@ -71,6 +84,7 @@ The system:
 - Creates an interactive travel experience in any city worldwide
 
 Architecture focuses on:
+
 - Hallucination control (RAG with real POI data)
 - Cost-efficient AI usage
 - GDPR-friendly photo handling (no storage)
@@ -81,12 +95,14 @@ Architecture focuses on:
 ## 🚀 MVP Philosophy (Realistic for 1 Week)
 
 ### You are NOT building:
+
 ❌ Global gaming platform
 ❌ Social network
 ❌ Commercial product
 ❌ Full Questo competitor
 
 ### You ARE building:
+
 ✅ **Demonstration of how AI + Open Data can create interactive tourist experiences**
 
 ---
@@ -108,17 +124,20 @@ Architecture focuses on:
 ## 🎯 Clear MVP Formula
 
 ### Input:
+
 - Coordinates
 - Genre
 - Duration
 
 ### Process:
+
 - Get POIs
 - Select 5
 - Generate tasks
 - Verify photos
 
 ### Output:
+
 - Completed Quest
 
 ---
@@ -132,6 +151,7 @@ To:
 **AI Product Engineer**
 
 Your MVP should demonstrate:
+
 - AI control
 - Architectural thinking
 - Working with open data
@@ -162,6 +182,7 @@ This will impress Travus Cloud.
 ### Two Ways to Play:
 
 #### 1. Outdoor Quest Games (for locals)
+
 Perfect for a spontaneous day in your city. These quests work like outdoor escape rooms — you solve tasks to uncover the story.
 
 **For couples:** Try "Murder Mystery: Crime on a Date"
@@ -169,6 +190,7 @@ Perfect for a spontaneous day in your city. These quests work like outdoor escap
 **For friends:** Treasure hunt challenges
 
 #### 2. Story-Driven Walking Tours (for travelers)
+
 Not just sightseeing — immerse yourself in history. Partner with local writers to create game-based walking tours.
 
 **New York:** Walk revolution streets in "Hamilton"
@@ -178,16 +200,19 @@ Not just sightseeing — immerse yourself in history. Partner with local writers
 **Worldwide Access:** Available in Rome, Berlin, Barcelona, and 1000+ cities
 
 ### Multiplayer & Competition
+
 **Cooperative mode:** One phone, solve puzzles together
 **Versus mode:** Split into teams, compete on leaderboard
 
 ### Questo Pass
+
 Unlimited adventures with new pass system.
 **Unlimited play:** As many quests as you want (3 days, 7 days, year)
 **No auto-renewal:** No subscriptions or hidden fees
 **Start when you want:** Countdown begins with first quest, not purchase
 
 ### Why Players Choose Questo
+
 - **Affordable:** Much cheaper than escape rooms or guided tours
 - **Flexible:** Start when you want, pause for coffee/lunch
 - **Privacy:** No crowds, just you, friends, and phone
