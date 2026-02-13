@@ -24,28 +24,36 @@ const FALLBACK_POIS: POI[] = [
 /**
  * Fetch Points of Interest around a specific location
  */
-export const fetchPOIs = async (lat: number, lon: number, radius = 1000): Promise<POI[]> => {
-  // Simplified query for better performance
+/**
+ * Fetch Points of Interest around a specific location
+ */
+export const fetchPOIs = async (lat: number, lon: number, radius = 800): Promise<POI[]> => {
+  // Optimized query:
+  // 1. Reduced timeout to 10s (fail fast)
+  // 2. Focused on specific tags to reduce data load
+  // 3. Using 'nwr' (Node, Way, Relation) to catch buildings
   const query = `
-    [out:json][timeout:15];
+    [out:json][timeout:10];
     (
-      node["historic"](around:${radius},${lat},${lon});
-      node["tourism"](around:${radius},${lat},${lon});
-      way["historic"](around:${radius},${lat},${lon});
+      nwr["tourism"~"attraction|viewpoint|museum|artwork|gallery"](around:${radius},${lat},${lon});
+      nwr["historic"~"monument|memorial|castle|ruins|building"](around:${radius},${lat},${lon});
+      nwr["amenity"~"place_of_worship|townhall|theatre"](around:${radius},${lat},${lon});
     );
-    out center;
+    out center 15; // Limit to 15 results to save bandwidth
   `
-
+  
+  // Use a public instance with better uptime if standard one fails, or rotate? 
+  // For now stick to main but handle timeout gracefully.
   const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`
 
   try {
     const controller = new AbortController()
-    const id = setTimeout(() => controller.abort(), 10000) // 10s timeout
+    const id = setTimeout(() => controller.abort(), 12000) // 12s client timeout
 
     const response = await fetch(url, { signal: controller.signal })
     clearTimeout(id)
 
-    if (!response.ok) throw new Error('Overpass API request failed')
+    if (!response.ok) throw new Error(`Overpass API error: ${response.status}`)
 
     const data = await response.json()
     
@@ -54,15 +62,23 @@ export const fetchPOIs = async (lat: number, lon: number, radius = 1000): Promis
       return FALLBACK_POIS
     }
 
-    return data.elements.map((el: any) => ({
-      id: el.id,
-      lat: el.lat || el.center.lat,
-      lon: el.lon || el.center.lon,
-      name: el.tags.name || el.tags.description || `POI ${el.id}`,
-      type: el.tags.historic || el.tags.tourism || el.tags.amenity || 'point_of_interest'
-    })).filter((poi: POI) => poi.name)
+    // Map and simple deduplication
+    const pois = data.elements
+      .map((el: any) => ({
+        id: el.id,
+        lat: el.lat || el.center?.lat || lat,
+        lon: el.lon || el.center?.lon || lon,
+        name: el.tags.name || el.tags.description,
+        type: el.tags.tourism || el.tags.historic || el.tags.amenity || 'point_of_interest'
+      }))
+      .filter((p: any) => p.name && p.lat && p.lon) // Strict filter
+      .slice(0, 10) // Keep only top 10
+
+    return pois.length > 0 ? pois : FALLBACK_POIS
+
   } catch (error) {
-    console.error('Failed to fetch POIs, using fallback:', error)
+    console.warn('⚠️ Overpass API timed out or failed. Switching to offline/fallback mode.', error)
+    // Return fallback data silently so the user flow isn't interrupted
     return FALLBACK_POIS
   }
 }

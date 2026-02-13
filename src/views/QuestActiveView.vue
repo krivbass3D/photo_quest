@@ -2,84 +2,112 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useQuestStore } from '@/stores/quest'
-import TaskCard from '@/components/quest/TaskCard.vue'
+import JournalStep from '@/components/quest/JournalStep.vue'
+import VerticalRoute from '@/components/quest/VerticalRoute.vue'
 
 const router = useRouter()
 const store = useQuestStore()
 const quest = computed(() => store.currentQuest)
 
-const progress = computed(() => {
-  if (!quest.value?.tasks) return 0
-  const completed = quest.value.tasks.filter((t) => t.isCompleted).length
-  return Math.round((completed / quest.value.tasks.length) * 100)
+const currentIndex = computed(() => store.currentTaskIndex)
+
+// Determine the active task to show
+const activeTask = computed(() => {
+  if (!quest.value?.tasks) return null
+  return quest.value.tasks[currentIndex.value]
 })
 
-const isQuestComplete = computed(() => progress.value === 100)
+const isQuestComplete = computed(() => {
+  if (!quest.value?.tasks) return false
+  return quest.value.tasks.every((t) => t.isCompleted)
+})
 
 const finishQuest = () => {
   router.push('/rewards')
 }
+
+// Navigation for MVP validation (in real app, this happens automatically on success)
+const nextStep = () => {
+  store.nextTask()
+}
 </script>
 
 <template>
-  <div class="min-h-screen pb-20 px-4 sm:px-6 lg:px-8 overflow-y-auto">
+  <div class="min-h-screen bg-paper text-ink font-sans pb-20">
     <!-- Header -->
-    <header class="max-w-3xl mx-auto pt-8 pb-6 text-center">
-      <div class="inline-block border-b-4 border-primary pb-2 mb-4">
-        <h1 class="vintage-header text-3xl sm:text-4xl text-text">
-          {{ $t('quest.title') }}
-        </h1>
+    <header class="py-12 text-center relative border-b-2 border-ink/10">
+      <div class="absolute top-4 left-4 border-2 border-ink/30 p-2 rotate-[-5deg] opacity-70">
+        <span class="font-display font-bold text-xs tracking-widest uppercase text-ink/50 block"
+          >CLASSIFIED</span
+        >
+        <span class="font-display font-bold text-xl tracking-widest uppercase text-stamp-red block"
+          >REISEAKTE</span
+        >
       </div>
-      <p class="text-secondary font-medium">{{ $t('quest.subtitle') }}</p>
+
+      <h1
+        class="font-display text-4xl sm:text-5xl md:text-6xl text-ink mb-2 uppercase tracking-wide"
+      >
+        Die Verlorene Expedition
+      </h1>
+      <p class="font-serif text-lg md:text-xl text-ink/60 italic">
+        Eine fotografische Mission in {{ quest?.city || 'Unbekannt' }}
+      </p>
     </header>
 
-    <!-- Content -->
-    <main v-if="quest" class="max-w-3xl mx-auto space-y-8">
-      <!-- Progress Bar (Vintage Style) -->
-      <div class="bg-surface border-2 border-text p-1 shadow-sm">
-        <div class="h-4 bg-gray-200 relative">
-          <div
-            class="h-full bg-primary transition-all duration-1000 ease-out relative"
-            :style="{ width: `${progress}%` }"
-          >
-            <!-- Indicator triangle -->
-            <div
-              class="absolute right-0 -top-1 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-text translate-x-1/2"
-            ></div>
+    <main
+      v-if="quest"
+      class="max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-1 md:grid-cols-[80px_1fr] gap-8"
+    >
+      <!-- Left Sidebar: Route (Hidden on mobile for simplification or added as horizontal top bar) -->
+      <aside class="hidden md:block sticky top-8 h-[calc(100vh-100px)]">
+        <VerticalRoute :total-steps="quest.tasks.length" :current-step-index="currentIndex" />
+      </aside>
+
+      <!-- Main Content Area -->
+      <div class="space-y-12">
+        <!-- Active Step -->
+        <div v-if="activeTask && !isQuestComplete" class="min-h-[600px] flex flex-col">
+          <JournalStep :task="activeTask" :index="currentIndex" :is-active="true" />
+
+          <!-- Navigation Override for MVP manual progression if needed, or just status -->
+          <div v-if="activeTask.isCompleted" class="mt-8 text-center">
+            <button
+              class="bg-ink text-paper font-display font-bold uppercase tracking-widest px-8 py-4 text-xl hover:bg-stamp-red transition-colors shadow-lg"
+              @click="isQuestComplete ? finishQuest() : nextStep()"
+            >
+              {{ isQuestComplete ? 'Mission Abschließen' : 'Nächster Halt →' }}
+            </button>
           </div>
         </div>
-        <div
-          class="flex justify-between text-xs font-bold uppercase tracking-widest mt-1 text-text/60"
-        >
-          <span>START</span>
-          <span>{{ progress }}%</span>
-          <span>ZIEL</span>
-        </div>
-      </div>
 
-      <!-- Task List -->
-      <div class="grid gap-6">
-        <TaskCard v-for="(task, index) in quest.tasks" :key="task.id" :task="task" :index="index" />
-      </div>
+        <!-- Completion State -->
+        <div v-if="isQuestComplete" class="text-center py-20 animate-fade-in">
+          <div class="inline-block p-12 bg-white shadow-2xl skew-y-1 border border-ink/20 relative">
+            <div
+              class="absolute -top-6 -right-6 w-24 h-24 bg-stamp-red rounded-full flex items-center justify-center text-paper font-display font-bold text-xl rotate-12 shadow-lg animate-bounce"
+            >
+              100%
+            </div>
 
-      <!-- Completion Actions -->
-      <div v-if="isQuestComplete" class="text-center py-8 animate-fade-in-up">
-        <div class="vintage-border bg-white p-8 inline-block shadow-xl transform rotate-1">
-          <h3 class="vintage-header text-2xl text-success mb-2">{{ $t('quest.finish_title') }}</h3>
-          <p class="text-text mb-6">{{ $t('quest.finish_desc') }}</p>
-          <button
-            class="bg-primary text-white text-lg font-bold uppercase tracking-widest px-8 py-4 border-2 border-text hover:-translate-y-1 transition-transform"
-            @click="finishQuest"
-          >
-            {{ $t('quest.claim_rewards') }}
-          </button>
+            <h2 class="font-display text-4xl text-ink mb-4 uppercase">Missionsbericht</h2>
+            <p class="font-journal text-2xl text-ink/70 mb-8 italic">Das Archiv ist vollständig.</p>
+
+            <button
+              class="bg-gold text-ink font-display font-bold uppercase tracking-widest px-10 py-5 text-xl border-2 border-ink hover:-translate-y-1 transition-transform shadow-[4px_4px_0px_rgba(31,42,68,1)]"
+              @click="finishQuest"
+            >
+              Ergebnisse Ansehen
+            </button>
+          </div>
         </div>
       </div>
     </main>
 
-    <div v-else class="text-center py-20">
-      <p class="text-xl text-text/50">Lade Quest...</p>
-      <router-link to="/setup" class="text-primary underline mt-4 block"
+    <div v-else class="min-h-screen flex flex-col items-center justify-center">
+      <div class="animate-spin text-4xl mb-4">🧭</div>
+      <p class="font-serif text-xl text-ink/50">Lade Akten...</p>
+      <router-link to="/setup" class="text-stamp-red underline mt-4 font-bold"
         >Zurück zum Start</router-link
       >
     </div>
@@ -87,11 +115,11 @@ const finishQuest = () => {
 </template>
 
 <style scoped>
-.animate-fade-in-up {
-  animation: fadeInUp 0.5s ease-out forwards;
+.animate-fade-in {
+  animation: fadeIn 1s ease-out forwards;
 }
 
-@keyframes fadeInUp {
+@keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(20px);
