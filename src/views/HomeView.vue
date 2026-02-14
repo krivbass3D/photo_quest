@@ -22,26 +22,27 @@
       <div
         class="text-center py-8 px-4 sm:py-16 sm:px-8 flex flex-col items-center z-10 relative landscape:py-6 landscape:px-12"
       >
-        <h1
-          class="vintage-header text-4xl sm:text-5xl md:text-6xl text-primary mb-4 sm:mb-6 leading-tight drop-shadow-sm landscape:text-3xl landscape:mb-2 text-wrap"
-        >
-          {{ $t('home.title') }}
-        </h1>
+        <!-- Logo -->
+        <img
+          src="@/assets/Logo.jpg"
+          alt="PhotoQuest Deutschland"
+          class="w-full max-w-[280px] sm:max-w-[350px] mb-6 drop-shadow-md rounded-sm"
+        />
 
         <div class="w-16 sm:w-24 h-1 bg-text opacity-20 my-4 sm:my-6 landscape:my-2"></div>
 
         <p
-          class="text-text text-base sm:text-xl md:text-2xl font-medium tracking-wide leading-relaxed max-w-xs sm:max-w-md mx-auto text-secondary/90 landscape:text-sm landscape:loading-snug landscape:max-w-full"
+          class="text-text text-base sm:text-l md:text-xl font-medium tracking-wide leading-relaxed max-w-[280px] sm:max-w-md mx-auto text-secondary/90 landscape:text-sm landscape:loading-snug landscape:max-w-full"
         >
           {{ $t('home.subtitle') }}
         </p>
 
         <router-link
           to="/setup"
-          class="mt-6 sm:mt-12 group relative inline-block focus:outline-none landscape:mt-4"
+          class="mt-8 sm:mt-12 group relative inline-block focus:outline-none landscape:mt-4"
         >
           <span
-            class="relative z-10 block bg-primary text-background text-sm sm:text-lg font-bold uppercase tracking-widest px-6 py-3 sm:px-8 sm:py-4 border-2 border-text transform group-hover:-translate-y-1 transition-transform duration-200 landscape:py-2 landscape:text-sm"
+            class="relative z-10 block bg-primary text-background text-sm sm:text-lg font-bold uppercase tracking-widest px-6 py-4 sm:px-10 sm:py-5 border-2 border-text transform group-hover:-translate-y-1 transition-transform duration-200 landscape:py-2 landscape:text-sm shadow-lg"
           >
             {{ $t('home.startButton') }}
           </span>
@@ -53,7 +54,7 @@
 
       <!-- Vintage footer text -->
       <div
-        class="text-center pb-2 sm:pb-4 text-[0.6rem] sm:text-xs font-bold tracking-[0.2em] text-text/40 uppercase landscape:pb-2"
+        class="text-center pb-4 sm:pb-6 text-[0.6rem] sm:text-xs font-bold tracking-[0.2em] text-text/40 uppercase landscape:pb-2"
       >
         Est. 2026 • Deutschland
       </div>
