@@ -15,6 +15,10 @@ const currentStep = ref(1)
 const totalSteps = 4
 
 const nextStep = () => {
+  if (currentStep.value === 1 && !store.config.city) {
+    alert('Bitte wähle zuerst eine Stadt aus!')
+    return
+  }
   if (currentStep.value < totalSteps) currentStep.value++
 }
 

@@ -8,7 +8,9 @@ export interface AIResponse {
 export interface QuestTask {
   id: string
   title: string
-  description: string
+  description: string // Keeping for backward compatibility or as fallback
+  narrative?: string // The story part
+  instruction?: string // The specific task
   hint: string
   location: string
   points: number
@@ -19,5 +21,6 @@ export interface GeneratedQuest {
   id: string
   city: string
   theme: string
+  intro?: string // Introduction story
   tasks: QuestTask[]
 }

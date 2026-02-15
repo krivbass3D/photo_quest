@@ -33,7 +33,7 @@ export const fetchPOIs = async (lat: number, lon: number, radius = 800): Promise
   // 2. Focused on specific tags to reduce data load
   // 3. Using 'nwr' (Node, Way, Relation) to catch buildings
   const query = `
-    [out:json][timeout:10];
+    [out:json][timeout:25];
     (
       nwr["tourism"~"attraction|viewpoint|museum|artwork|gallery"](around:${radius},${lat},${lon});
       nwr["historic"~"monument|memorial|castle|ruins|building"](around:${radius},${lat},${lon});
@@ -48,7 +48,7 @@ export const fetchPOIs = async (lat: number, lon: number, radius = 800): Promise
 
   try {
     const controller = new AbortController()
-    const id = setTimeout(() => controller.abort(), 12000) // 12s client timeout
+    const id = setTimeout(() => controller.abort(), 20000) // 20s client timeout
 
     const response = await fetch(url, { signal: controller.signal })
     clearTimeout(id)

@@ -30,15 +30,8 @@ const handleGenerate = async () => {
   // Mapping configStore params to what createQuest expects
   await questStore.createQuest({
     city,
-    duration: restConfig.duration,
-    transport: 'walking', // default for now, could be added to config
-    difficulty: restConfig.difficulty,
-    genre: restConfig.genre,
+    ...restConfig, // Passes language, atmosphere, etc.
     pois,
-    // Pass other params if createQuest supports them (atmosphere, language, etc.)
-    // Note: The current useQuestStore.createQuest interface might need updates to accept all new params
-    // For MVP, we pass what matches.
-    // We should update createQuest to accept the full config object later.
   })
 
   // 3. Navigate to active quest if successful

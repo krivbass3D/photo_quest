@@ -35,7 +35,7 @@ export const useQuestStore = defineStore('quest', {
   },
 
   actions: {
-    async createQuest(params: { city: string, duration: number, transport: string, difficulty: string, genre: string, pois: any[] }) {
+    async createQuest(params: any) {
       this.isLoading = true
       this.error = null
       try {
@@ -90,6 +90,18 @@ export const useQuestStore = defineStore('quest', {
       if (!this.isLastTask) {
         this.currentTaskIndex++
       }
+    },
+
+    setTaskIndex(index: number) {
+        if (this.currentQuest && index >= 0 && index <= this.currentQuest.tasks.length) {
+            this.currentTaskIndex = index
+        }
+    },
+
+    skipTask() {
+        if (!this.isLastTask) {
+            this.currentTaskIndex++
+        }
     },
 
     resetQuest() {

@@ -19,58 +19,48 @@ serve(async (req) => {
     if (!openaiKey) throw new Error('VITE_OPENAI_API_KEY not set in Supabase Secrets')
 
     // AI Configuration
-    const systemPrompt = `Ты профессиональный квест-дизайнер и сценарист городских игр.
-
-1.  Создавай логичные, атмосферные и структурированные сценарии городских квестов, которые можно пройти в любом городе мира без реквизита и специальных предметов.
-2.  Квест должен на 80% использовать фото-задания.
-3.  Быть полностью автономным.
-4.  Использовать только наблюдение, анализ, логику и элементы городской среды.
-
-Структура обязательна:
-1.  Название
-2.  Введение
-3.  Конфликт
-4.  5–8 шагов (Каждый шаг: Нарратив, Задание, Ответ, Подсказка, Локация, Координаты)
-5.  Финальный твист
-6.  Альтернативная концовка
-
-Задания должны быть разнообразными и соответствовать выбранным типам механик.`
+    const systemPrompt = `Ты профессиональный квест-дизайнер.
+1. Твоя задача: Создавать увлекательные городские фото-квесты.
+2. Формат: JSON.
+3. Язык: Строго следуй запрошенному языку (по умолчанию Русский, но если указан другой - пиши на нем).
+4. Структура:
+   - Введение (intro): Погружает в атмосферу.
+   - Задания: Разделены на нарратив (история) и инструкцию (что делать).
+5. Контент:
+   - Используй предоставленные POI.
+   - Если POI мало, используй общие городские элементы.
+   - Тон должен соответствовать жанру.`
 
     // Prepare POI context (limit to 10 nearest/most relevant)
     const poiContext = pois.slice(0, 10).map(p => `- ${p.name} (${p.type || 'unknown'})`).join('\n')
 
-    const userPrompt = `Создай городской квест со следующими параметрами:
+    const targetLanguage = language === 'en' ? 'English' : language === 'de' ? 'German' : 'Russian'
 
-Город: ${city}
-Продолжительность: ${duration} минут
-Сложность: ${difficulty}
-Формат игроков: ${playersFormat || 'Универсальный'}
-Целевая аудитория: ${audience || 'Туристы'}
-Жанр: ${genre}
-Атмосфера: ${Array.isArray(atmosphere) ? atmosphere.join(', ') : (atmosphere || 'Standard')}
-Типы заданий: ${Array.isArray(taskTypes) ? taskTypes.join(', ') : (taskTypes || 'Observation')}
-Линейность: ${linearity || 'linear'}
-Язык: ${language === 'en' ? 'English' : language === 'de' ? 'German' : 'Russian'}
+    const userPrompt = `Create a city quest in ${targetLanguage}.
 
-ДОСТУПНЫЕ POI (Используй их как локации для заданий):
+City: ${city}
+Duration: ${duration} min
+Difficulty: ${difficulty}
+Genre: ${genre}
+Atmosphere: ${Array.isArray(atmosphere) ? atmosphere.join(', ') : (atmosphere || 'Standard')}
+Language: ${targetLanguage} (IMPORTANT: Write EVERYTHING in this language)
+
+AVAILABLE POIS:
 ${poiContext}
 
-Дополнительно:
-- Квест должен быть полностью автономным.
-- Основа это фото загадки.
-- Использовать универсальные городские элементы, если POI недоступны.
-
-AUSGABEFORMAT (JSON):
+JSON OUTPUT FORMAT:
 {
-  "id": "generated-id",
-  "theme": "Название Квеста",
+  "theme": "Quest Title",
+  "intro": "Atmospheric introduction story (2-3 sentences)",
   "tasks": [
     {
       "id": "task-1",
-      "title": "Название шага",
-      "description": "Нарратив + Задание (что найти/сделать)",
-      "hint": "Подсказка",
-      "location": "Название POI или ориентира",
+      "title": "Step Title",
+      "narrative": "Story part: 'You arrive at the ancient gates...'",
+      "instruction": "Task part: 'Find the stone lion and take a photo of it.'",
+      "description": "Legacy field: Combine narrative and instruction here",
+      "hint": "Helpful hint",
+      "location": "POI Name or Location",
       "points": 100
     }
   ]

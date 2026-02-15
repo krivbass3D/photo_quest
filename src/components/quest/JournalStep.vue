@@ -44,7 +44,7 @@ const handleFileUpload = async (event: Event) => {
 
 <template>
   <div
-    class="relative p-6 sm:p-8 transition-all duration-500"
+    class="relative p-4 sm:p-8 transition-all duration-500"
     :class="
       isActive ? 'opacity-100 scale-100' : 'opacity-50 scale-95 blur-[1px] pointer-events-none'
     "
@@ -55,49 +55,48 @@ const handleFileUpload = async (event: Event) => {
     ></div>
 
     <!-- Header: Step Number & Title -->
-    <div class="flex flex-col mb-6 border-b-2 border-ink/10 pb-4">
-      <span class="font-display text-ink/40 text-sm tracking-[0.2em] mb-1"
+    <div class="flex flex-col mb-4 sm:mb-6 border-b-2 border-ink/10 pb-4">
+      <span class="font-display text-ink/40 text-xs sm:text-sm tracking-[0.2em] mb-1"
         >STEP {{ (index + 1).toString().padStart(2, '0') }}</span
       >
-      <h2 class="font-display text-2xl sm:text-3xl text-ink uppercase leading-tight">
+      <h2 class="font-display text-xl sm:text-3xl text-ink uppercase leading-tight">
         {{ task.title }}
       </h2>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
       <!-- Left Column: Narrative & Task -->
-      <div class="space-y-6">
+      <div class="space-y-4 sm:space-y-6">
         <!-- Narrative -->
-        <p class="font-journal text-xl leading-relaxed text-ink/80 italic">
-          "{{ task.description }}"
+        <p class="font-journal text-lg sm:text-xl leading-relaxed text-ink/80 italic">
+          "{{ task.narrative || task.description }}"
         </p>
 
         <!-- Task Instruction Box -->
         <div class="border-l-4 border-gold pl-4 py-2 bg-gold/10">
-          <h3 class="font-display text-xs font-bold text-ink uppercase tracking-widest mb-2">
+          <h3 class="font-display text-[0.6rem] sm:text-xs font-bold text-ink uppercase tracking-widest mb-1 sm:mb-2">
             Fotografische Aufgabe
           </h3>
-          <p class="font-sans text-sm text-ink font-bold">{{ task.description }}</p>
-          <!-- Reusing description as task for MVP, prompt divides them usually -->
+          <p class="font-sans text-xs sm:text-sm text-ink font-bold">{{ task.instruction || task.description }}</p>
         </div>
 
         <!-- Hint Envelope -->
-        <div class="relative mt-4">
+        <div class="relative mt-2 sm:mt-4">
           <button
             v-if="!showHint"
-            class="text-xs font-bold uppercase tracking-widest text-stamp-red border-b border-stamp-red/30 hover:text-ink transition-colors flex items-center gap-2"
+            class="text-[0.6rem] sm:text-xs font-bold uppercase tracking-widest text-stamp-red border-b border-stamp-red/30 hover:text-ink transition-colors flex items-center gap-2"
             @click="toggleHint"
           >
             <span>🔍 Hinweis öffnen</span>
-            <span class="text-[0.6rem] opacity-50">(-5 Reputation)</span>
+            <span class="text-[0.5rem] sm:text-[0.6rem] opacity-50">(-5 Reputation)</span>
           </button>
 
           <div
             v-else
-            class="bg-surface p-4 border border-ink/10 relative animate-fade-in shadow-inner"
+            class="bg-surface p-3 sm:p-4 border border-ink/10 relative animate-fade-in shadow-inner"
           >
-            <span class="absolute -top-2 left-4 text-xl">📎</span>
-            <p class="font-hand text-sm text-ink/70">
+            <span class="absolute -top-2 left-4 text-lg">📎</span>
+            <p class="font-hand text-xs sm:text-sm text-ink/70">
               {{ task.hint || 'Schaue genau auf die Details der Architektur...' }}
             </p>
           </div>
@@ -105,10 +104,10 @@ const handleFileUpload = async (event: Event) => {
       </div>
 
       <!-- Right Column: Evidence Photo Slot -->
-      <div class="relative">
+      <div class="relative max-w-sm mx-auto w-full lg:max-w-none">
         <!-- Photo Frame (Tilted) -->
         <div
-          class="bg-white p-3 pb-8 shadow-xl rotate-2 transition-transform hover:rotate-1 cursor-pointer relative group"
+          class="bg-white p-2 sm:p-3 pb-6 sm:pb-8 shadow-xl rotate-2 transition-transform hover:rotate-1 cursor-pointer relative group"
           @click="!task.isCompleted && triggerUpload()"
         >
           <!-- The Photo Area -->
@@ -126,43 +125,43 @@ const handleFileUpload = async (event: Event) => {
 
             <!-- Placeholder / Loader -->
             <div v-if="!task.isCompleted" class="text-center p-4">
-              <div v-if="isUploading" class="animate-pulse font-display text-ink/50">
+              <div v-if="isUploading" class="animate-pulse font-display text-ink/50 text-xs sm:text-base">
                 WIRD ENTWICKELT...
               </div>
               <div
                 v-else
-                class="flex flex-col items-center gap-2 text-ink/20 group-hover:text-ink/40 transition-colors"
+                class="flex flex-col items-center gap-1 sm:gap-2 text-ink/20 group-hover:text-ink/40 transition-colors"
               >
-                <span class="text-4xl">📷</span>
-                <span class="font-display text-xs tracking-widest">Beweisfoto</span>
+                <span class="text-3xl sm:text-4xl">📷</span>
+                <span class="font-display text-[0.6rem] sm:text-xs tracking-widest">Beweisfoto</span>
               </div>
             </div>
 
-            <!-- Success State (Image would go here in real app, using placeholder for now) -->
+            <!-- Success State -->
             <div
               v-if="task.isCompleted"
               class="absolute inset-0 bg-secondary/10 flex items-center justify-center"
             >
-              <span class="text-6xl grayscale opacity-50">🖼️</span>
+              <span class="text-5xl sm:text-6xl grayscale opacity-50">🖼️</span>
             </div>
           </div>
 
           <!-- Caption -->
-          <div class="mt-4 text-center font-hand text-ink/60 text-sm">
+          <div class="mt-2 sm:mt-4 text-center font-hand text-ink/60 text-xs sm:text-sm">
             Beweisstück Nr. {{ (index + 1).toString().padStart(2, '0') }}
           </div>
 
           <!-- STAMP ANIMATION OVERLAY -->
           <div
             v-if="task.isCompleted"
-            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-4 border-stamp-red text-stamp-red font-display font-black text-2xl uppercase p-2 -rotate-12 opacity-80 mix-blend-multiply animate-stamp-in whitespace-nowrap mask-grunge"
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-2 sm:border-4 border-stamp-red text-stamp-red font-display font-black text-xl sm:text-2xl uppercase p-1 sm:p-2 -rotate-12 opacity-80 mix-blend-multiply animate-stamp-in whitespace-nowrap mask-grunge"
           >
             ✔ BESTÄTIGT
           </div>
           <!-- FAIL STAMP -->
           <div
             v-if="resultData && !resultData.success"
-            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-4 border-ink text-ink font-display font-black text-2xl uppercase p-2 rotate-12 opacity-90 mix-blend-multiply animate-stamp-in bg-paper"
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-2 sm:border-4 border-ink text-ink font-display font-black text-xl sm:text-2xl uppercase p-1 sm:p-2 rotate-12 opacity-90 mix-blend-multiply animate-stamp-in bg-paper"
           >
             ABGELEHNT
           </div>
@@ -171,7 +170,7 @@ const handleFileUpload = async (event: Event) => {
         <!-- Feedback Text below photo -->
         <div
           v-if="resultData && !resultData.success"
-          class="mt-8 font-hand text-xs text-red-800 text-center bg-red-100/50 p-2 rotate-1"
+          class="mt-4 sm:mt-8 font-hand text-[0.6rem] sm:text-xs text-red-800 text-center bg-red-100/50 p-2 rotate-1"
         >
           "{{ resultData.feedback }}"
         </div>
