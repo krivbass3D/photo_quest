@@ -36,20 +36,20 @@ const closeIntro = () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-paper text-ink font-sans pb-20">
+  <div class="min-h-screen bg-paper text-ink font-sans pb-20 w-full overflow-x-hidden">
     <!-- Header -->
-    <header class="sticky top-0 z-40 bg-paper/95 backdrop-blur-sm shadow-md transition-all pt-4 pb-4 px-4 border-b-2 border-ink/10">
-      <div class="max-w-3xl mx-auto text-center relative">
+    <header class="sticky top-0 z-40 bg-paper/95 backdrop-blur-sm shadow-md transition-all pt-4 pb-4 px-2 sm:px-4 border-b-2 border-ink/10 w-full">
+      <div class="max-w-3xl mx-auto text-center relative w-full px-2">
         <!-- Stamp -->
-        <div class="absolute top-0 left-0 sm:left-[-20px] scale-75 origin-top-left border-2 border-ink/30 p-1 rotate-[-5deg] opacity-50 hidden sm:block">
+        <div class="absolute top-0 left-0 sm:left-[-20px] scale-50 sm:scale-75 origin-top-left border-2 border-ink/30 p-1 rotate-[-5deg] opacity-50 hidden xs:block sm:block">
           <span class="font-display font-bold text-[0.6rem] tracking-widest uppercase text-ink/50 block">CLASSIFIED</span>
           <span class="font-display font-bold text-sm tracking-widest uppercase text-stamp-red block">REISEAKTE</span>
         </div>
 
-        <h1 class="font-display text-2xl sm:text-3xl md:text-4xl text-ink mb-1 uppercase tracking-wide leading-tight truncate px-8">
+        <h1 class="font-display text-xl sm:text-3xl md:text-4xl text-ink mb-1 uppercase tracking-wide leading-tight px-2 sm:px-8 break-words">
           {{ quest?.theme || 'Die Verlorene Expedition' }}
         </h1>
-        <p class="font-serif text-sm text-ink/60 italic mb-4">
+        <p class="font-serif text-xs sm:text-sm text-ink/60 italic mb-4">
           {{ quest?.city || 'Unbekannt' }}
         </p>
 
@@ -102,8 +102,8 @@ const closeIntro = () => {
       <div class="space-y-8 pb-20">
         <!-- Intro Modal -->
         <div v-if="showIntro && quest.intro" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-          <div class="bg-paper p-6 sm:p-8 max-w-lg w-full shadow-2xl skew-y-1 relative border-2 border-gold/20 max-h-[85vh] flex flex-col">
-             <h2 class="font-display text-2xl sm:text-3xl mb-4 text-ink uppercase flex-shrink-0">Dein Auftrag</h2>
+          <div class="bg-paper p-6 sm:p-8 max-w-[95vw] sm:max-w-lg w-full shadow-2xl skew-y-1 relative border-2 border-gold/20 max-h-[85vh] flex flex-col">
+             <h2 class="font-display text-xl sm:text-3xl mb-4 text-ink uppercase flex-shrink-0">Dein Auftrag</h2>
              <div class="overflow-y-auto pr-2 mb-8 custom-scrollbar">
                 <p class="font-journal text-lg sm:text-xl text-ink/80 italic leading-relaxed">"{{ quest.intro }}"</p>
              </div>

@@ -44,14 +44,14 @@ const handleFileUpload = async (event: Event) => {
 
 <template>
   <div
-    class="relative p-4 sm:p-8 transition-all duration-500"
+    class="relative p-4 sm:p-8 transition-all duration-500 overflow-x-hidden"
     :class="
       isActive ? 'opacity-100 scale-100' : 'opacity-50 scale-95 blur-[1px] pointer-events-none'
     "
   >
     <!-- Paper Sheet Background -->
     <div
-      class="absolute inset-0 bg-paper shadow-2xl skew-y-1 transform origin-top-left -z-10 border border-ink/10"
+      class="absolute inset-x-2 inset-y-0 bg-paper shadow-2xl skew-y-[0.5deg] sm:skew-y-1 transform origin-top-left -z-10 border border-ink/10"
     ></div>
 
     <!-- Header: Step Number & Title -->
@@ -104,7 +104,7 @@ const handleFileUpload = async (event: Event) => {
       </div>
 
       <!-- Right Column: Evidence Photo Slot -->
-      <div class="relative max-w-sm mx-auto w-full lg:max-w-none">
+      <div class="relative max-w-[280px] sm:max-w-sm mx-auto w-full lg:max-w-none">
         <!-- Photo Frame (Tilted) -->
         <div
           class="bg-white p-2 sm:p-3 pb-6 sm:pb-8 shadow-xl rotate-2 transition-transform hover:rotate-1 cursor-pointer relative group"
