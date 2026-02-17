@@ -60,6 +60,19 @@ export const useQuestStore = defineStore('quest', {
       const task = this.currentQuest?.tasks.find(t => t.id === taskId)
       if (!task) return { success: false, feedback: 'Task not found' }
       
+      
+      // Initialize attempts
+      if (typeof task.attempts === 'undefined') task.attempts = 0
+      task.attempts++
+
+      // Auto-accept on 3rd attempt
+      if (task.attempts >= 3) {
+        task.isCompleted = true
+        task.userPhoto = photoBase64
+        this.score += task.points
+        return { success: true, feedback: 'Photo accepted after 3 attempts! Good effort.' }
+      }
+
       this.isLoading = true
       try {
         const { data, error } = await supabase.functions.invoke('validate-photo', {
@@ -74,6 +87,7 @@ export const useQuestStore = defineStore('quest', {
 
         if (data.success) {
           task.isCompleted = true
+          task.userPhoto = photoBase64
           this.score += task.points
         }
 

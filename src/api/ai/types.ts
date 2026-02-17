@@ -15,6 +15,8 @@ export interface QuestTask {
   location: string
   points: number
   isCompleted?: boolean
+  attempts?: number
+  userPhoto?: string // Base64 or URL
 }
 
 export interface GeneratedQuest {
