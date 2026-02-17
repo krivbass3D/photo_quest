@@ -8,7 +8,7 @@ serve(async (req) => {
   }
 
   try {
-    const { city, duration, transport, difficulty, genre, playersFormat, audience, atmosphere, taskTypes, linearity, language, pois } = await req.json()
+    const { city, duration, transport, difficulty, genre, playersFormat, audience, atmosphere, taskTypes, linearity, language, pois, radius, userLat, userLon } = await req.json()
     
     // Validate inputs
     if (!city || !pois || !Array.isArray(pois)) {
@@ -28,6 +28,7 @@ serve(async (req) => {
    - Задания: Разделены на нарратив (история) и инструкцию (что делать).
 5. Контент:
    - Используй предоставленные POI.
+   - ПРОСТРАНСТВЕННОЕ ОГРАНИЧЕНИЕ: Если указан радиус и локация пользователя, старайся выбирать точки В ПРЕДЕЛАХ этого радиуса.
    - Если POI мало, используй общие городские элементы.
    - Тон должен соответствовать жанру.`
 
@@ -35,10 +36,14 @@ serve(async (req) => {
     const poiContext = pois.slice(0, 10).map(p => `- ${p.name} (${p.type || 'unknown'})`).join('\n')
 
     const targetLanguage = language === 'en' ? 'English' : language === 'de' ? 'German' : 'Russian'
+    const radiusInfo = radius ? `Radius: ${radius} km` : ''
+    const locationInfo = userLat && userLon ? `User Start Location: ${userLat}, ${userLon}` : ''
 
     const userPrompt = `Create a city quest in ${targetLanguage}.
 
 City: ${city}
+${radiusInfo}
+${locationInfo}
 Duration: ${duration} min
 Difficulty: ${difficulty}
 Genre: ${genre}

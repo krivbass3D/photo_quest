@@ -13,6 +13,9 @@ export interface QuestConfigState {
   city: string
   lat: number
   lon: number
+  radius: number // km
+  userLat?: number | null
+  userLon?: number | null
   duration: number
   difficulty: QuestDifficulty
   playersFormat: QuestFormat
@@ -35,6 +38,9 @@ export const useQuestConfigStore = defineStore('questConfig', () => {
     city: '',
     lat: 0,
     lon: 0,
+    radius: 3, // Default 3km
+    userLat: null,
+    userLon: null,
     duration: 60,
     difficulty: 'medium',
     playersFormat: 'couple',
@@ -43,7 +49,7 @@ export const useQuestConfigStore = defineStore('questConfig', () => {
     atmosphere: [],
     taskTypes: [],
     linearity: 'linear',
-    language: 'ru' // Defaulting to Russian as per prompt examples, or English? User prompt had Russian examples.
+    language: 'ru' 
   })
 
   // Live Preview Logic (Rule-based)
@@ -57,11 +63,26 @@ export const useQuestConfigStore = defineStore('questConfig', () => {
 
   function setCity(cityName: string) {
     config.value.city = cityName
+    // Reset user location when manually selecting a city to avoid confusion
+    config.value.userLat = null
+    config.value.userLon = null
   }
 
   function setCoordinates(lat: number, lon: number) {
     config.value.lat = lat
     config.value.lon = lon
+  }
+
+  function setUserLocation(lat: number, lon: number) {
+    config.value.userLat = lat
+    config.value.userLon = lon
+    // Also set as main coordinates for now, but mark as user-derived if needed
+    config.value.lat = lat
+    config.value.lon = lon
+  }
+
+  function setRadius(radius: number) {
+    config.value.radius = radius
   }
 
   function applyTemplate(templateName: string) {
@@ -81,6 +102,8 @@ export const useQuestConfigStore = defineStore('questConfig', () => {
     previewText,
     setCity,
     setCoordinates,
+    setUserLocation,
+    setRadius,
     applyTemplate
   }
 })
